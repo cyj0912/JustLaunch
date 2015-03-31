@@ -1,6 +1,7 @@
 #include "Common.h"
 #include "HotkeyProcessor.h"
 #include "Network.h"
+#include "NetCommand.h"
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
@@ -33,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hKeyHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyHookProc, GetModuleHandle(NULL), 0);
 	if (!hKeyHook)
 		return -1;
-	//UnhookWindowsHookEx(hKeyHook);
+	UnhookWindowsHookEx(hKeyHook);
 	HotkeyProcessor HkProc(255);
 	gHkProcessor = &HkProc;
 	BYTE SysKeyboardState[255];
@@ -58,6 +59,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (bRet == FALSE)
 			goto CLEANUP;
 		DispatchMessage(&msg);
+		if (!Server.IsRunning())
+			goto CLEANUP;
 	}
 CLEANUP:
 	Server.Stop();

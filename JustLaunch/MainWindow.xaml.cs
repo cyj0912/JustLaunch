@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -13,14 +14,15 @@ namespace JustLaunch
     public partial class MainWindow : Window
     {
         ShortcutManager ShortcutMgr;
-        System.Collections.Concurrent.ConcurrentQueue<bool> Notifications;
+        HotkeyClient NetHotkey;
+        //System.Collections.Concurrent.ConcurrentQueue<bool> Notifications;
 
         public MainWindow()
         {
             InitializeComponent();
             ShowInTaskbar = false;
             Topmost = true;
-            Notifications = new System.Collections.Concurrent.ConcurrentQueue<bool>();
+            //Notifications = new System.Collections.Concurrent.ConcurrentQueue<bool>();
             ShortcutMgr = new ShortcutManager(true);
         }
 
@@ -28,6 +30,52 @@ namespace JustLaunch
         {
             base.OnSourceInitialized(e);
             Hide();
+            NotificationWindow InitWindow = new NotificationWindow();
+            InitWindow.Show();
+            NetHotkey = new HotkeyClient();
+            bool KillSwitch = false;
+            int Attempts = 0;
+            while (!NetHotkey.TryToConnect() && Attempts < 4)
+            {
+                if (!HostSupport.IsListenerRunning())
+                {
+                    HostSupport.LaunchHotkeyListener();
+                    Thread.Sleep(1000);
+                }
+                else if (!KillSwitch)
+                {
+                    Thread.Sleep(1000);
+                    KillSwitch = !KillSwitch;
+                }
+                else
+                {
+                    HostSupport.KillListener();
+                    HostSupport.LaunchHotkeyListener();
+                    Thread.Sleep(1000);
+                    KillSwitch = !KillSwitch;
+                }
+                Attempts++;
+            }
+            if (Attempts >= 4)
+            {
+                InitWindow.Close();
+                HostSupport.KillListener();
+                System.Windows.MessageBox.Show("Unable to connect to the hotkey server.", "Error");
+                this.Close();
+            }
+            System.Windows.Threading.DispatcherTimer NetTimer = new System.Windows.Threading.DispatcherTimer();
+            NetTimer.Tick += NetTimer_Tick;
+            NetTimer.Interval = new TimeSpan(10);
+            NetTimer.Start();
+            InitWindow.Close();
+        }
+
+        private void NetTimer_Tick(object sender, EventArgs e)
+        {
+            if(!NetHotkey.IsRunning())
+            {
+                return;
+            }
         }
 
         int CurrentSelection = -1;
@@ -73,29 +121,47 @@ namespace JustLaunch
             ShortcutMgr.Launch(CurrentSelection.ToString());
         }
 
-        private void Window_ProcessNotifications()
+        private void Panel_Show()
         {
-            if (Notifications.Count > 0)
-            {
-                bool notiCur;
-                while(!Notifications.TryDequeue(out notiCur));
-                if (notiCur)
-                {
-                    CurrentSelection = -1;
-                    arcInner.ArcThickness = 0;
-                    arcIndicator.ArcThickness = 0;
+            CurrentSelection = -1;
+            arcInner.ArcThickness = 0;
+            arcIndicator.ArcThickness = 0;
 
-                    PresentationSource pSource = PresentationSource.FromVisual(this);
-                    System.Drawing.Point mousePos = Control.MousePosition;
-                    Left = mousePos.X / pSource.CompositionTarget.TransformToDevice.M11 - Width / 2;
-                    Top = mousePos.Y / pSource.CompositionTarget.TransformToDevice.M22 - Height / 2;
-                    Show();
-                }
-                else
-                {
-                    Hide();
-                }
-            }
+            PresentationSource pSource = PresentationSource.FromVisual(this);
+            System.Drawing.Point mousePos = Control.MousePosition;
+            Left = mousePos.X / pSource.CompositionTarget.TransformToDevice.M11 - Width / 2;
+            Top = mousePos.Y / pSource.CompositionTarget.TransformToDevice.M22 - Height / 2;
+            Show();
         }
+
+        private void Panel_Hide()
+        {
+            Hide();
+        }
+
+        //private void Window_ProcessNotifications()
+        //{
+        //    if (Notifications.Count > 0)
+        //    {
+        //        bool notiCur;
+        //        while(!Notifications.TryDequeue(out notiCur));
+        //        if (notiCur)
+        //        {
+        //            CurrentSelection = -1;
+        //            arcInner.ArcThickness = 0;
+        //            arcIndicator.ArcThickness = 0;
+
+        //            PresentationSource pSource = PresentationSource.FromVisual(this);
+        //            System.Drawing.Point mousePos = Control.MousePosition;
+        //            Left = mousePos.X / pSource.CompositionTarget.TransformToDevice.M11 - Width / 2;
+        //            Top = mousePos.Y / pSource.CompositionTarget.TransformToDevice.M22 - Height / 2;
+        //            Show();
+        //        }
+        //        else
+        //        {
+        //            Hide();
+        //        }
+        //    }
+        //}
     }
 }

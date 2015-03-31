@@ -68,6 +68,8 @@
   <ItemGroup>
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="HotkeyProcessor.cpp" />
+    <ClCompile Include="NetCommand.cpp" />
+    <ClCompile Include="NetCommandProcessor.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="Win32Main.cpp" />
   </ItemGroup>
@@ -75,6 +77,8 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Hotkey.h" />
     <ClInclude Include="HotkeyProcessor.h" />
+    <ClInclude Include="NetCommand.h" />
+    <ClInclude Include="NetCommandProcessor.h" />
     <ClInclude Include="Network.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

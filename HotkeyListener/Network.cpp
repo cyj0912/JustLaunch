@@ -7,7 +7,7 @@
 
 SocketServer::SocketServer()
 {
-
+	bRunning = false;
 }
 
 SocketServer::~SocketServer()
@@ -17,7 +17,7 @@ SocketServer::~SocketServer()
 
 void SocketServer::StartRunning()
 {
-	WorkingThread = thread(SocketServer::ThreadWorker);
+	WorkingThread = thread(SocketServer::ThreadWorker, this);
 }
 
 void SocketServer::Stop()
@@ -25,15 +25,20 @@ void SocketServer::Stop()
 	WorkingThread.join();
 }
 
-void SocketServer::ThreadWorker()
+bool SocketServer::IsRunning()
 {
-	return;
+	return bRunning;
+}
+
+void SocketServer::ThreadWorker(SocketServer* aServer)
+{
+	aServer->bRunning = true;
 
 	int iRet;
 	WSADATA wsaData;
 	iRet = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iRet != 0)
-		return;
+		goto CLEANUP;
 
 	struct addrinfo *result = NULL, *ptr = NULL, hints;
 	ZeroMemory(&hints, sizeof(hints));
@@ -45,7 +50,7 @@ void SocketServer::ThreadWorker()
 	if (iRet != 0)
 	{
 		WSACleanup();
-		return;
+		goto CLEANUP;
 	}
 	SOCKET ListenSocket = INVALID_SOCKET;
 	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
@@ -54,7 +59,7 @@ void SocketServer::ThreadWorker()
 		freeaddrinfo(result);
 		closesocket(ListenSocket);
 		WSACleanup();
-		return;
+		goto CLEANUP;
 	}
 	iRet = ::bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (iRet != 0)
@@ -62,7 +67,7 @@ void SocketServer::ThreadWorker()
 		freeaddrinfo(result);
 		closesocket(ListenSocket);
 		WSACleanup();
-		return;
+		goto CLEANUP;
 	}
 	freeaddrinfo(result);
 
@@ -70,7 +75,7 @@ void SocketServer::ThreadWorker()
 	{
 		closesocket(ListenSocket);
 		WSACleanup();
-		return;
+		goto CLEANUP;
 	}
 	for (;;)
 	{
@@ -80,8 +85,11 @@ void SocketServer::ThreadWorker()
 		{
 			closesocket(ListenSocket);
 			WSACleanup();
-			return;
+			goto CLEANUP;
 		}
 		closesocket(ClientSocket);
 	}
+
+CLEANUP:
+	aServer->bRunning = false;
 }
