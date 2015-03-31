@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "HotkeyProcessor.h"
+#include "Network.h"
 
 HotkeyProcessor::HotkeyProcessor(unsigned int aNumOfKeys)
 {
@@ -47,6 +48,16 @@ bool HotkeyProcessor::ProcessKeyEvent(unsigned int aKeyCode, bool aIsDownOrUp)
 			}
 			(*HKIter).second.LastActive = (*HKIter).second.Active;
 			(*HKIter).second.Active = Success;
+
+			// Fix it >>>>>>>>>>>>>>>>>>>>>>>>
+			if ((*HKIter).second.LastActive != (*HKIter).second.Active)
+			{
+				SimpleCommand s;
+				s.State = Success;
+				gServer->SendCmd(s);
+			}
+			// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 			if (Success && ContainsCurrentKey && (*HKIter).first.Block)
 				Ret = true;
 		}

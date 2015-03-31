@@ -1,6 +1,11 @@
 #pragma once
 #include "Common.h"
 
+struct SimpleCommand
+{
+	int State;
+};
+
 struct NetCommand
 {
 	static const int PROTOCOL_VERSION = 0x01;

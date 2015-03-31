@@ -30,6 +30,12 @@ bool SocketServer::IsRunning()
 	return bRunning;
 }
 
+void SocketServer::SendCmd(SimpleCommand& cmd)
+{
+	lock_guard<mutex> lock(OutCmdQueueMutex);
+	OutCmdQueue.push_back(cmd);
+}
+
 void SocketServer::ThreadWorker(SocketServer* aServer)
 {
 	aServer->bRunning = true;
@@ -77,6 +83,19 @@ void SocketServer::ThreadWorker(SocketServer* aServer)
 		WSACleanup();
 		goto CLEANUP;
 	}
+
+	while (1)
+	{
+		aServer->OutCmdQueueMutex.lock();
+		for (vector<SimpleCommand>::iterator iter = aServer->OutCmdQueue.begin(); iter != aServer->OutCmdQueue.end();
+			iter++)
+		{
+			cout << (*iter).State << endl;
+		}
+		aServer->OutCmdQueue.clear();
+		aServer->OutCmdQueueMutex.unlock();
+	}
+
 	for (;;)
 	{
 		SOCKET ClientSocket = INVALID_SOCKET;

@@ -20,8 +20,11 @@ namespace JustLaunch
 
         public bool TryToConnect()
         {
-            //IPEndPoint LocalIPEP = new IPEndPoint(IPAddress.Loopback, 0);
-            //ClientSocket = new Socket(LocalIPEP.AddressFamily, SocketType.Stream, ProtocolType.Udp);
+            IPEndPoint LocalIPEP = new IPEndPoint(IPAddress.Loopback, 20015);
+            ClientSocket = new Socket(LocalIPEP.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            ClientSocket.Connect(LocalIPEP);
+            if (ClientSocket.Connected)
+                return true;
             return false;
         }
 

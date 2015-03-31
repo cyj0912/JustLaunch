@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hKeyHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyHookProc, GetModuleHandle(NULL), 0);
 	if (!hKeyHook)
 		return -1;
-	UnhookWindowsHookEx(hKeyHook);
+	//UnhookWindowsHookEx(hKeyHook);
 	HotkeyProcessor HkProc(255);
 	gHkProcessor = &HkProc;
 	BYTE SysKeyboardState[255];
@@ -45,10 +45,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		KeyboardState[i] = ((SysKeyboardState[i] & 0x80) == 1);
 	}
 	HkProc.Setup(KeyboardState, 255);
-	//Hotkey TestHotkey1;
-	//TestHotkey1.Block = true;
-	//TestHotkey1.Combination.push_back(VK_LWIN);
-	//HkProc.RegisterHotkey(TestHotkey1);
+	//Testing hotkey
+	Hotkey TestHotkey1;
+	TestHotkey1.Block = true;
+	TestHotkey1.Combination.push_back(VK_LWIN);
+	HkProc.RegisterHotkey(TestHotkey1);
 	SocketServer Server;
 	gServer = &Server;
 	Server.StartRunning();
