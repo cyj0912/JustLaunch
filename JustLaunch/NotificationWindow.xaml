@@ -9,6 +9,11 @@
                 <DropShadowEffect BlurRadius="10" Direction="0"/>
             </Label.Effect>
         </Label>
-        <Image HorizontalAlignment="Left" Height="100" Margin="10,130,0,0" VerticalAlignment="Top" Width="100" Source="Tray.ico" Opacity="0.6"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="10,104,0,0" VerticalAlignment="Top" Width="100" Source="Tray.ico" Opacity="0.6"/>
+        <Label Content="Press WIN key to open the panel." HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Foreground="White">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="0"/>
+            </Label.Effect>
+        </Label>
     </Grid>
 </Window>

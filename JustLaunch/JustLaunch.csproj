@@ -80,6 +80,9 @@
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shortcut.cs" />
     <Compile Include="ShortcutManager.cs" />
     <Page Include="MainWindow.xaml">
@@ -95,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,6 +156,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Tray.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Restart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Close.png" />
+    <Resource Include="Info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

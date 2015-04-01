@@ -16,6 +16,7 @@ namespace JustLaunch
     {
         ShortcutManager ShortcutMgr;
         HotkeyClient NetHotkey;
+        SettingWindow SettingWindowInst;
         //System.Collections.Concurrent.ConcurrentQueue<bool> Notifications;
 
         public MainWindow()
@@ -100,6 +101,7 @@ namespace JustLaunch
         }
 
         int CurrentSelection = -1;
+        int CenterSelection = -1;
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -152,15 +154,50 @@ namespace JustLaunch
             System.Drawing.Point mousePos = Control.MousePosition;
             Left = mousePos.X / pSource.CompositionTarget.TransformToDevice.M11 - Width / 2;
             Top = mousePos.Y / pSource.CompositionTarget.TransformToDevice.M22 - Height / 2;
+            if (SettingWindowInst != null && SettingWindowInst.IsVisible)
+                return;
             Show();
         }
 
         private void Panel_Hide()
         {
             Hide();
+            if (CenterSelection != -1)
+            {
+                if (CenterSelection == 1)
+                {
+                    SettingWindowInst = new SettingWindow();
+                    SettingWindowInst.Show();
+                }
+                else if (CenterSelection == 4)
+                {
+                    HostSupport.KillListener();
+                    Close();
+                }
+            }
             if (CurrentSelection == -1)
                 return;
             ShortcutMgr.Launch(CurrentSelection.ToString());
+        }
+
+        private void btnCenterSettings_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            CenterSelection = 1;
+        }
+
+        private void btnCenterSettings_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            CenterSelection = -1;
+        }
+
+        private void btnCenterClose_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            CenterSelection = 4;
+        }
+
+        private void btnCenterClose_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            CenterSelection = -1;
         }
 
         //private void Window_ProcessNotifications()
