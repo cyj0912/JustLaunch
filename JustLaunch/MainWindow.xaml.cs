@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -24,6 +25,19 @@ namespace JustLaunch
             Topmost = true;
             //Notifications = new System.Collections.Concurrent.ConcurrentQueue<bool>();
             ShortcutMgr = new ShortcutManager(true);
+
+            System.Windows.Forms.NotifyIcon TrayIcon = new NotifyIcon();
+            Stream IconStream = 
+                System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Tray.ico")).Stream;
+            TrayIcon.Icon = new System.Drawing.Icon(IconStream);
+            TrayIcon.Visible = true;
+            TrayIcon.DoubleClick += TrayIcon_DoubleClick;
+        }
+
+        void TrayIcon_DoubleClick(object sender, EventArgs e)
+        {
+            HostSupport.KillListener();
+            Close();
         }
 
         protected override void OnSourceInitialized(EventArgs e)

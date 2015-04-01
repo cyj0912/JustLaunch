@@ -4,5 +4,10 @@
         Title="JustLaunch is initializing" Height="300" Width="300">
     <Grid>
         <Image Margin="0,0,0,0" Source="Init_BG.png" Stretch="UniformToFill"/>
+        <Label Content="To exit, DOUBLE CLICK the tray icon." HorizontalAlignment="Left" Margin="10,235,0,0" VerticalAlignment="Top" Foreground="White">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="0"/>
+            </Label.Effect>
+        </Label>
     </Grid>
 </Window>

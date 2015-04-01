@@ -84,18 +84,6 @@ void SocketServer::ThreadWorker(SocketServer* aServer)
 		goto CLEANUP;
 	}
 
-	while (1)
-	{
-		aServer->OutCmdQueueMutex.lock();
-		for (vector<SimpleCommand>::iterator iter = aServer->OutCmdQueue.begin(); iter != aServer->OutCmdQueue.end();
-			iter++)
-		{
-			cout << (*iter).State << endl;
-		}
-		aServer->OutCmdQueue.clear();
-		aServer->OutCmdQueueMutex.unlock();
-	}
-
 	for (;;)
 	{
 		SOCKET ClientSocket = INVALID_SOCKET;
@@ -105,6 +93,18 @@ void SocketServer::ThreadWorker(SocketServer* aServer)
 			closesocket(ListenSocket);
 			WSACleanup();
 			goto CLEANUP;
+		}
+		while (1)
+		{
+			Sleep(10);
+			aServer->OutCmdQueueMutex.lock();
+			for (vector<SimpleCommand>::iterator iter = aServer->OutCmdQueue.begin(); iter != aServer->OutCmdQueue.end();
+				iter++)
+			{
+				cout << (*iter).State << endl;
+			}
+			aServer->OutCmdQueue.clear();
+			aServer->OutCmdQueueMutex.unlock();
 		}
 		closesocket(ClientSocket);
 	}

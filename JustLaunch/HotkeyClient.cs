@@ -22,9 +22,16 @@ namespace JustLaunch
         {
             IPEndPoint LocalIPEP = new IPEndPoint(IPAddress.Loopback, 20015);
             ClientSocket = new Socket(LocalIPEP.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            ClientSocket.Connect(LocalIPEP);
-            if (ClientSocket.Connected)
-                return true;
+            try
+            {
+                ClientSocket.Connect(LocalIPEP);
+                if (ClientSocket.Connected)
+                    return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
             return false;
         }
 
