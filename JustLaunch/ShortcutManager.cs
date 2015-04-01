@@ -8,7 +8,8 @@ namespace JustLaunch
 {
     class ShortcutManager
     {
-        private Dictionary<String, Shortcut> Storage;
+        // TODO: Fix the ugly design
+        public Dictionary<String, Shortcut> Storage;
         private String StoragePath;
 
         public ShortcutManager(bool UsaDefaultSettingFile)
@@ -45,9 +46,11 @@ namespace JustLaunch
 
             if(!file.Exists)
             {
-                Storage["1"] = new Shortcut("D:\\Dev14d\\cmake\\bin\\cmake-gui.exe");
-                Storage["2"] = new Shortcut("D:\\msys64\\msys2_shell.bat");
-                Storage["3"] = new Shortcut("notepad.exe");
+                Storage["1"] = new Shortcut("C:\\Windows\\System32\\notepad.exe");
+                Storage["2"] = new Shortcut("C:\\Windows\\System32\\taskmgr.exe");
+                //Storage["1"] = new Shortcut("D:\\Dev14d\\cmake\\bin\\cmake-gui.exe");
+                //Storage["2"] = new Shortcut("D:\\msys64\\msys2_shell.bat");
+                //Storage["3"] = new Shortcut("notepad.exe");
                 WriteToStorage();
                 return;
             }

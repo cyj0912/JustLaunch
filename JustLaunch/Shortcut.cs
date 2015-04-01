@@ -42,6 +42,11 @@ namespace JustLaunch
             return true;
         }
 
+        public String GetPath()
+        {
+            return ExecutablePath;
+        }
+
         [DataMember]
         protected String ExecutablePath;
     }

@@ -144,6 +144,11 @@ namespace JustLaunch
             //ShortcutMgr.Launch(CurrentSelection.ToString());
         }
 
+        private void Settings_Changed(object sender, EventArgs e)
+        {
+            // TODO
+        }
+
         private void Panel_Show()
         {
             CurrentSelection = -1;
@@ -167,6 +172,7 @@ namespace JustLaunch
                 if (CenterSelection == 1)
                 {
                     SettingWindowInst = new SettingWindow();
+                    SettingWindowInst.SettingsChanged += this.Settings_Changed;
                     SettingWindowInst.Show();
                 }
                 else if (CenterSelection == 4)
