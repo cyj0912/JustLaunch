@@ -26,9 +26,12 @@ namespace JustLaunch
             {
                 ClientSocket.Connect(LocalIPEP);
                 if (ClientSocket.Connected)
+                {
+                    Running = true;
                     return true;
+                }
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }
@@ -38,6 +41,28 @@ namespace JustLaunch
         public bool IsRunning()
         {
             return Running;
+        }
+
+        byte[] RecvBuffer = new byte[8];
+        bool IsBuffering = false;
+        public void TryBuffering()
+        {
+            if (!IsBuffering)
+            {
+                ClientSocket.BeginReceive(RecvBuffer, 0, 8, 0, ClientSocket_Received, null);
+                IsBuffering = true;
+            }
+        }
+
+        public void ClientSocket_Received(IAsyncResult ar)
+        {
+            Console.WriteLine("Received " + RecvBuffer[0] + RecvBuffer[1] + RecvBuffer[2] + RecvBuffer[3] + RecvBuffer[4]);
+            IsBuffering = false;
+        }
+
+        public bool IsThereNewMessage()
+        {
+            return false;
         }
     }
 }

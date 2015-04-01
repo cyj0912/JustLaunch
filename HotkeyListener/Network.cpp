@@ -96,12 +96,14 @@ void SocketServer::ThreadWorker(SocketServer* aServer)
 		}
 		while (1)
 		{
-			Sleep(10);
 			aServer->OutCmdQueueMutex.lock();
 			for (vector<SimpleCommand>::iterator iter = aServer->OutCmdQueue.begin(); iter != aServer->OutCmdQueue.end();
 				iter++)
 			{
-				cout << (*iter).State << endl;
+				cout << hex << *(int*)&(*iter) << " ";
+				cout << hex << *((int*)&(*iter) + 1) << endl;
+				int res = send(ClientSocket, (const char*)&(*iter), sizeof(SimpleCommand), 0);
+				cout << res << endl;
 			}
 			aServer->OutCmdQueue.clear();
 			aServer->OutCmdQueueMutex.unlock();

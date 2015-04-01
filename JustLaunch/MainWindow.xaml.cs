@@ -82,6 +82,7 @@ namespace JustLaunch
             NetTimer.Interval = new TimeSpan(10);
             NetTimer.Start();
             InitWindow.Close();
+            Console.WriteLine("Initialized!");
         }
 
         private void NetTimer_Tick(object sender, EventArgs e)
@@ -90,6 +91,7 @@ namespace JustLaunch
             {
                 return;
             }
+            NetHotkey.TryBuffering();
         }
 
         int CurrentSelection = -1;

@@ -3,6 +3,12 @@
 
 struct SimpleCommand
 {
+	SimpleCommand()
+	{
+		Cmd = 0xFFFFFFFF;
+		State = 0;
+	}
+	int Cmd;
 	int State;
 };
 

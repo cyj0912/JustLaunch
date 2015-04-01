@@ -9,5 +9,6 @@
                 <DropShadowEffect BlurRadius="10" Direction="0"/>
             </Label.Effect>
         </Label>
+        <Image HorizontalAlignment="Left" Height="100" Margin="10,130,0,0" VerticalAlignment="Top" Width="100" Source="Tray.ico" Opacity="0.6"/>
     </Grid>
 </Window>
