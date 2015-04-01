@@ -54,15 +54,23 @@ namespace JustLaunch
             }
         }
 
+        bool IsNewCmd = false;
+        int CmdValue;
+
         public void ClientSocket_Received(IAsyncResult ar)
         {
             Console.WriteLine("Received " + RecvBuffer[0] + RecvBuffer[1] + RecvBuffer[2] + RecvBuffer[3] + RecvBuffer[4]);
+            IsNewCmd = true;
+            CmdValue = RecvBuffer[4];
             IsBuffering = false;
         }
 
-        public bool IsThereNewMessage()
+        public int GetQueuedCommand()
         {
-            return false;
+            if(!IsNewCmd)
+                return -1;
+            IsNewCmd = false;
+            return CmdValue;
         }
     }
 }

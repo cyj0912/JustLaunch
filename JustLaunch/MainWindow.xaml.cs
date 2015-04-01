@@ -92,6 +92,11 @@ namespace JustLaunch
                 return;
             }
             NetHotkey.TryBuffering();
+            int CurrCmd = NetHotkey.GetQueuedCommand();
+            if (CurrCmd == 0)
+                Panel_Hide();
+            else if (CurrCmd == 1)
+                Panel_Show();
         }
 
         int CurrentSelection = -1;
@@ -132,9 +137,9 @@ namespace JustLaunch
         private void Window_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // GetCurrentShortcut();
-            if (CurrentSelection == -1)
-                return;
-            ShortcutMgr.Launch(CurrentSelection.ToString());
+            //if (CurrentSelection == -1)
+            //    return;
+            //ShortcutMgr.Launch(CurrentSelection.ToString());
         }
 
         private void Panel_Show()
@@ -153,6 +158,9 @@ namespace JustLaunch
         private void Panel_Hide()
         {
             Hide();
+            if (CurrentSelection == -1)
+                return;
+            ShortcutMgr.Launch(CurrentSelection.ToString());
         }
 
         //private void Window_ProcessNotifications()

@@ -96,6 +96,7 @@ void SocketServer::ThreadWorker(SocketServer* aServer)
 		}
 		while (1)
 		{
+			Sleep(10);
 			aServer->OutCmdQueueMutex.lock();
 			for (vector<SimpleCommand>::iterator iter = aServer->OutCmdQueue.begin(); iter != aServer->OutCmdQueue.end();
 				iter++)
