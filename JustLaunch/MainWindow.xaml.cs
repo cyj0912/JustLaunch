@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace JustLaunch
 {
@@ -17,6 +20,7 @@ namespace JustLaunch
         ShortcutManager ShortcutMgr;
         HotkeyClient NetHotkey;
         SettingWindow SettingWindowInst;
+        System.Windows.Forms.NotifyIcon TrayIcon;
         //System.Collections.Concurrent.ConcurrentQueue<bool> Notifications;
 
         public MainWindow()
@@ -25,9 +29,9 @@ namespace JustLaunch
             ShowInTaskbar = false;
             Topmost = true;
             //Notifications = new System.Collections.Concurrent.ConcurrentQueue<bool>();
-            ShortcutMgr = new ShortcutManager(true);
+            Reload_Shortcuts();
 
-            System.Windows.Forms.NotifyIcon TrayIcon = new NotifyIcon();
+            TrayIcon = new NotifyIcon();
             Stream IconStream = 
                 System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Tray.ico")).Stream;
             TrayIcon.Icon = new System.Drawing.Icon(IconStream);
@@ -105,7 +109,7 @@ namespace JustLaunch
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Point p = e.GetPosition(this);
+            System.Windows.Point p = e.GetPosition(this);
             double px = p.X - 175;
             double py = 175 - p.Y;
             double distFromCenter = Math.Sqrt(px * px + py * py);
@@ -144,9 +148,48 @@ namespace JustLaunch
             //ShortcutMgr.Launch(CurrentSelection.ToString());
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            TrayIcon.Visible = false;
+            TrayIcon.Dispose();
+        }
+
         private void Settings_Changed(object sender, EventArgs e)
         {
-            // TODO
+            Reload_Shortcuts();
+        }
+
+        private void Reload_Shortcuts()
+        {
+            ShortcutMgr = new ShortcutManager(true);
+
+            BitmapImage CrossLogo = new BitmapImage();
+            CrossLogo.BeginInit();
+            CrossLogo.UriSource = new Uri("pack://application:,,,/Close.png");
+            CrossLogo.EndInit();
+
+            for (int i = 1; i <= 6; i++)
+            {
+                System.Windows.Controls.Image I = (System.Windows.Controls.Image)FindName("appIcon" + i.ToString());
+                if (ShortcutMgr.Storage.ContainsKey(i.ToString()))
+                {
+                    System.Drawing.Icon AppIcon =
+                        System.Drawing.Icon.ExtractAssociatedIcon(ShortcutMgr.Storage[i.ToString()].GetPath());
+                    Bitmap bitmap = AppIcon.ToBitmap();
+                    IntPtr hBitmap = bitmap.GetHbitmap();
+
+                    ImageSource wpfBitmap =
+                         Imaging.CreateBitmapSourceFromHBitmap(
+                              hBitmap, IntPtr.Zero, Int32Rect.Empty,
+                              BitmapSizeOptions.FromEmptyOptions());
+
+                    I.Source = wpfBitmap;
+                }
+                else
+                {
+                    //I.Source = CrossLogo;
+                }
+            }
         }
 
         private void Panel_Show()

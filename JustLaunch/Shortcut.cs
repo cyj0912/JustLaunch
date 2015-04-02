@@ -34,7 +34,14 @@ namespace JustLaunch
             procLaunching.StartInfo.FileName = ExecutablePath;
             procLaunching.StartInfo.Arguments = "";
             procLaunching.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            return procLaunching.Start();
+            try
+            {
+                return procLaunching.Start();
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         protected bool StartProcess()
