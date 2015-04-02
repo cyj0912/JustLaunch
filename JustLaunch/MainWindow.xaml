@@ -9,8 +9,8 @@
         <ed:Arc x:Name="arcInnerBg" ArcThickness="83" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FF293955" Margin="92,92,92,92" Stretch="None" Cursor="Cross" StartAngle="0" StrokeThickness="0"/>
         <ed:Arc x:Name="arcInner" ArcThickness="15" ArcThicknessUnit="Pixel" EndAngle="129" Fill="#FFE8E8EC" Margin="92,92,92,92" Stretch="None" Cursor="Cross" StartAngle="69"/>
         <Image x:Name="btnCenterSettings" HorizontalAlignment="Left" Height="48" Margin="126,129,0,0" VerticalAlignment="Top" Width="48" Source="Gear.png" MouseEnter="btnCenterSettings_MouseEnter" MouseLeave="btnCenterSettings_MouseLeave"/>
-        <Image HorizontalAlignment="Left" Height="48" Margin="179,129,0,0" VerticalAlignment="Top" Width="48" Source="Restart.png" Opacity="0.1"/>
-        <Image HorizontalAlignment="Left" Height="48" Margin="126,182,0,0" VerticalAlignment="Top" Width="48" Source="Info.png" Opacity="0.1"/>
+        <Image x:Name="btnCenterRestart" HorizontalAlignment="Left" Height="48" Margin="179,129,0,0" VerticalAlignment="Top" Width="48" Source="Restart.png" Opacity="0.1"/>
+        <Image x:Name="btnCenterInfo" HorizontalAlignment="Left" Height="48" Margin="126,182,0,0" VerticalAlignment="Top" Width="48" Source="Info.png" Opacity="0.1"/>
         <Image x:Name="btnCenterClose" HorizontalAlignment="Left" Height="48" Margin="179,182,0,0" VerticalAlignment="Top" Width="48" Source="Close.png" MouseEnter="btnCenterClose_MouseEnter" MouseLeave="btnCenterClose_MouseLeave"/>
         <Image x:Name="appIcon1" HorizontalAlignment="Left" Height="64" Margin="213,35,0,0" VerticalAlignment="Top" Width="64" Cursor="Cross"/>
         <Image x:Name="appIcon2" HorizontalAlignment="Left" Height="64" Margin="276,145,0,0" VerticalAlignment="Top" Width="64" Cursor="Cross"/>

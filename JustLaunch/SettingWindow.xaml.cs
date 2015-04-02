@@ -29,6 +29,7 @@ namespace JustLaunch
         {
             InitializeComponent();
             ReadSettings();
+            listboxPanels.SelectedIndex = 0;
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
@@ -139,6 +140,18 @@ namespace JustLaunch
         {
             String ExecPath = PickApplication(appBtn6, appImg6, appText6);
             ShortcutMgr.Storage["6"] = new Shortcut(ExecPath);
+        }
+
+        private void MainPanel_Selected(object sender, RoutedEventArgs e)
+        {
+            panelMainPanel.Visibility = Visibility.Visible;
+            panelAbout.Visibility = Visibility.Collapsed;
+        }
+
+        private void About_Selected(object sender, RoutedEventArgs e)
+        {
+            panelMainPanel.Visibility = Visibility.Collapsed;
+            panelAbout.Visibility = Visibility.Visible;
         }
     }
 }
