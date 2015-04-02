@@ -50,6 +50,6 @@
             </StackPanel>
         </Button>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="73.6,355,0,0" TextWrapping="Wrap" Text="Config the apps that are shown on the main panel" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="73.6,376,0,0" TextWrapping="Wrap" Text="JustLaunch Alpha Preview 1" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="73.6,376,0,0" TextWrapping="Wrap" Text="JustLaunch Alpha Preview 2" VerticalAlignment="Top"/>
     </Grid>
 </Window>
