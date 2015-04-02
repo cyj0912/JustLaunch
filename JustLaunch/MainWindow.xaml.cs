@@ -163,10 +163,10 @@ namespace JustLaunch
         {
             ShortcutMgr = new ShortcutManager(true);
 
-            BitmapImage CrossLogo = new BitmapImage();
-            CrossLogo.BeginInit();
-            CrossLogo.UriSource = new Uri("pack://application:,,,/Close.png");
-            CrossLogo.EndInit();
+            BitmapImage EmptyLogo = new BitmapImage();
+            EmptyLogo.BeginInit();
+            EmptyLogo.UriSource = new Uri("pack://application:,,,/Empty.png");
+            EmptyLogo.EndInit();
 
             for (int i = 1; i <= 6; i++)
             {
@@ -187,7 +187,7 @@ namespace JustLaunch
                 }
                 else
                 {
-                    //I.Source = CrossLogo;
+                    I.Source = EmptyLogo;
                 }
             }
         }
