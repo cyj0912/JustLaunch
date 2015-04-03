@@ -61,7 +61,7 @@
             </local:RadialPanel>
         </StackPanel>
         <StackPanel x:Name="panelAbout" Margin="9.6,10,9.6,10.4" Grid.Column="1">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="JustLaunch Alpha Preview 2" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="JustLaunch Alpha Preview 3" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Copyright (C) 2015 Toby Chen" VerticalAlignment="Top"/>
         </StackPanel>
     </Grid>

@@ -24,11 +24,13 @@ LRESULT CALLBACK KeyHookProc(int code, WPARAM wParam, LPARAM lParam)
 //int main(void)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
+#ifdef DEBUG
 #ifdef __STDC_WANT_SECURE_LIB__ // For the Microsoft CRT
 	FILE* LogFile;
 	freopen_s(&LogFile, "HL.log", "w", stdout);
 #else
 	freopen("HL.log", "w", stdout);
+#endif
 #endif
 	HHOOK hKeyHook;
 	hKeyHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyHookProc, GetModuleHandle(NULL), 0);

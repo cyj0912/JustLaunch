@@ -12,8 +12,8 @@ namespace JustLaunch
         public static void LaunchHotkeyListener()
         {
             //Hard-coded path
-            String ListenerPath = "D:\\Dev15a\\JustLaunch\\Debug\\HotkeyListener.exe";
-            //String ListenerPath = "HotkeyListener.exe";
+            //String ListenerPath = "D:\\Dev15a\\JustLaunch\\Debug\\HotkeyListener.exe";
+            String ListenerPath = "HotkeyListener.exe";
             Process procLaunching = new Process();
             procLaunching.StartInfo.FileName = ListenerPath;
             procLaunching.StartInfo.Arguments = "";
